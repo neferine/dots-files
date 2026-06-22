@@ -81,6 +81,14 @@ C3_RGBA=$(hex_to_rgba "$C3" "0.85")
 C5_RGBA=$(hex_to_rgba "$C5" "0.85")
 C6_RGBA=$(hex_to_rgba "$C6" "0.75")
 
+# hyprlock-specific colors
+LOCK_BG=$(hex_to_rgba "$C4" "0.55")
+LOCK_OUTER=$(hex_to_rgba "$C5" "0.5")
+LOCK_INNER=$(hex_to_rgba "$BG" "0.4")
+LOCK_FONT=$(hex_to_rgba "$FG" "1.0")
+LOCK_DATE=$(hex_to_rgba "$C2" "1.0")
+LOCK_TIME=$(hex_to_rgba "$C4" "1.0")
+
 # -------------------------------------------------------------
 
 echo "Generating configurations for wallpaper: $WALLPAPER"
@@ -188,39 +196,35 @@ echo "$PYWAL_LUA" > "$CACHE_DIR/pywal.lua"
 ln -s "$CACHE_DIR/pywal.lua" "$CONFIG_DIR/hypr/pywal.lua"
 
 # -------------------------------------------------------------
-# capture + blur screenshot for hyprlock background
-# -------------------------------------------------------------
-
-echo "[+] Capturing and processing lock screen background..."
-
-LOCK_IMG="$CACHE_DIR/lock.png"
-
-grim "$CACHE_DIR/lock-raw.png" 2>/dev/null
-if [[ -f "$CACHE_DIR/lock-raw.png" ]]; then
-    magick "$CACHE_DIR/lock-raw.png" \
-        -filter Gaussian -blur 0x8 \
-        -attenuate 0.3 +noise Gaussian \
-        -colorize 15,20,40 \
-        "$LOCK_IMG" 2>/dev/null
-    rm -f "$CACHE_DIR/lock-raw.png"
-fi
-
-# -------------------------------------------------------------
 # regenerate hyprlock.conf
 # -------------------------------------------------------------
 
 echo "[+] Generating hyprlock config..."
 
 HYPRLOCK=$(cat << HYPRLOCK
+general {
+    immediate_render = true    # show fallback color while screenshot loads
+    screencopy_mode = 1        # CPU screencopy (GPU DMA-BUF broken on this driver)
+    no_fade_in = false
+    no_fade_out = false
+}
+
 background {
-    monitor = ""
-    path = $LOCK_IMG
+    monitor =
+    path = screenshot           # live desktop capture
+    color = $LOCK_BG            # fallback tint if capture fails
+    blur_passes = 2             # may not work (driver issue)
+    blur_size = 8
+    noise = 0.025               # grain texture
+    contrast = 0.8
+    brightness = 0.7
+    vibrancy = 0.3
 }
 
 shape {
     monitor =
     size = 100%, 100%
-    color = rgba(0, 0, 0, 0.12)
+    color = rgba(0, 0, 0, 0.12)  # subtle dark vignette for depth
 }
 
 input-field {
@@ -230,9 +234,9 @@ input-field {
     dots_size = 0.2
     dots_spacing = 0.2
     dots_center = true
-    outer_color = rgba(70, 120, 200, 0.5)
-    inner_color = rgba(10, 15, 35, 0.4)
-    font_color = rgba(210, 225, 250, 1.0)
+    outer_color = $LOCK_OUTER
+    inner_color = $LOCK_INNER
+    font_color = $LOCK_FONT
     fade_on_empty = true
     fade_timeout = 1000
     placeholder_text = <i>Password...</i>
@@ -244,7 +248,7 @@ input-field {
 
 label {
     text = cmd[update:1000] echo "\$(date +'%A, %B %d')"
-    color = rgba(100, 160, 230, 1.0)
+    color = $LOCK_DATE
     font_size = 20
     font_family = Inter Bold
     position = 0, -35
@@ -254,7 +258,7 @@ label {
 
 label {
     text = cmd[update:1000] echo "\$(date +'%H:%M')"
-    color = rgba(200, 220, 255, 1.0)
+    color = $LOCK_TIME
     font_size = 96
     font_family = Inter Bold
     position = 0, 60
