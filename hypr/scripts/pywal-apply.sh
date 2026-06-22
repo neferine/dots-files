@@ -75,14 +75,11 @@ FG_RGBA=$(hex_to_rgba "$FG" "1.0")
 BG_ALT=$(lighten_hex "$C0" "0.08")
 BORDER=$(lighten_hex "$C0" "0.12")
 
-# lighter palette (less dark ~5/10)
-BG_LIGHT=$(lighten_hex "$C0" "0.25")
-BG_MID=$(lighten_hex "$C0" "0.35")
-BG_HIGH=$(lighten_hex "$C0" "0.45")
-
-BG_LIGHT_RGBA=$(hex_to_rgba "$BG_LIGHT" "0.8")
-BG_MID_RGBA=$(hex_to_rgba "$BG_MID" "0.8")
-BG_HIGH_RGBA=$(hex_to_rgba "$BG_HIGH" "0.8")
+# per-app accent colors (different pywal indices for variety)
+C2_RGBA=$(hex_to_rgba "$C2" "0.85")
+C3_RGBA=$(hex_to_rgba "$C3" "0.85")
+C5_RGBA=$(hex_to_rgba "$C5" "0.85")
+C6_RGBA=$(hex_to_rgba "$C6" "0.75")
 
 # -------------------------------------------------------------
 
@@ -122,9 +119,9 @@ width = 1
 radius = 6
 
 [colors]
-background = ${BG_LIGHT#\#}dd
+background = ${C0#\#}dd
 text = ${FG#\#}ee
-selection = ${C4#\#}44
+selection = ${C5#\#}44
 selection-text = ${FG#\#}ee
 match = ${C2#\#}ee
 placeholder = ${C8#\#}88
@@ -156,15 +153,15 @@ return {
     inactiveBorderColor = "$C0",
     urgentBorderColor   = "$C1",
 
-    background = "$BG_LIGHT",
+    background = "$C0",
     foreground = "$FG",
 
-    groupBorderActive   = "$C4_RGBA",
-    groupBorderInactive = "$BG_LIGHT_RGBA",
+    groupBorderActive   = "$C5_RGBA",
+    groupBorderInactive = "$C0_RGBA",
     groupbarText        = "$FG_RGBA",
     groupbarTextInactive = "$C8_RGBA",
-    groupbarBgActive    = "$BG_LIGHT_RGBA",
-    groupbarBgInactive  = "$BG_MID_RGBA",
+    groupbarBgActive    = "$C5_RGBA",
+    groupbarBgInactive  = "$BG_RGBA",
 
     color0  = "$C0",
     color1  = "$C1",
@@ -230,7 +227,7 @@ input-field {
 
 label {
     text = cmd[update:1000] echo "\$(date +'%A, %B %d')"
-    color = $FG_RGBA
+    color = $C2_RGBA
     font_size = 20
     font_family = Inter Bold
     position = 0, -35
@@ -260,7 +257,7 @@ echo "$HYPRLOCK" > "$CONFIG_DIR/hypr/hyprlock.conf"
 echo "[+] Generating ghostty config..."
 
 GHOSTTY=$(cat << GHOSTTY
-background = $BG_LIGHT
+background = $BG
 foreground = $FG
 cursor-color = $FG
 
@@ -299,14 +296,14 @@ echo "[+] Generating firefox userChrome/userContent css..."
 
 USERCHROME=$(cat << CSS
 :root {
-    --bg: $BG_LIGHT;
-    --surface: $BG_MID;
+    --bg: $C0;
+    --surface: $BG_ALT;
     --fg: $FG;
     --fg-dim: $C8;
     --accent: $C4;
-    --accent-soft: $C6;
+    --accent-soft: $C3;
     --accent-warm: $C5;
-    --border: $BG_HIGH;
+    --border: $BORDER;
 }
 
 #main-window {
@@ -470,12 +467,12 @@ CSS
 USERCONTENT=$(cat << CSS
 @-moz-document url(about:newtab), url(about:home), url(about:blank) {
     :root {
-        --bg: $BG_LIGHT;
-        --surface: $BG_MID;
+        --bg: $C0;
+        --surface: $BG_ALT;
         --fg: $FG;
         --fg-dim: $C8;
         --accent: $C4;
-        --border: $BG_HIGH;
+        --border: $BORDER;
     }
 
     body {
