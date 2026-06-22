@@ -188,6 +188,24 @@ echo "$PYWAL_LUA" > "$CACHE_DIR/pywal.lua"
 ln -s "$CACHE_DIR/pywal.lua" "$CONFIG_DIR/hypr/pywal.lua"
 
 # -------------------------------------------------------------
+# capture + blur screenshot for hyprlock background
+# -------------------------------------------------------------
+
+echo "[+] Capturing and processing lock screen background..."
+
+LOCK_IMG="$CACHE_DIR/lock.png"
+
+grim "$CACHE_DIR/lock-raw.png" 2>/dev/null
+if [[ -f "$CACHE_DIR/lock-raw.png" ]]; then
+    magick "$CACHE_DIR/lock-raw.png" \
+        -filter Gaussian -blur 0x8 \
+        -attenuate 0.3 +noise Gaussian \
+        -colorize 15,20,40 \
+        "$LOCK_IMG" 2>/dev/null
+    rm -f "$CACHE_DIR/lock-raw.png"
+fi
+
+# -------------------------------------------------------------
 # regenerate hyprlock.conf
 # -------------------------------------------------------------
 
@@ -196,14 +214,13 @@ echo "[+] Generating hyprlock config..."
 HYPRLOCK=$(cat << HYPRLOCK
 background {
     monitor = ""
-    path = screenshot
-    blur_passes = 1
-    blur_size = 3
-    noise = 0.15
-    contrast = 0.9
-    brightness = 1.0
-    vibrancy = 0.2
-    vibrancy_darkness = 0.0
+    path = $LOCK_IMG
+}
+
+shape {
+    monitor =
+    size = 100%, 100%
+    color = rgba(0, 0, 0, 0.12)
 }
 
 input-field {
@@ -213,7 +230,7 @@ input-field {
     dots_size = 0.2
     dots_spacing = 0.2
     dots_center = true
-    outer_color = rgba(60, 120, 200, 0.4)
+    outer_color = rgba(70, 120, 200, 0.5)
     inner_color = rgba(10, 15, 35, 0.4)
     font_color = rgba(210, 225, 250, 1.0)
     fade_on_empty = true
