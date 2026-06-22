@@ -3,8 +3,25 @@ require("settings")
 require("keybinds")
 require("rules")
 
-local ok, _ = pcall(require, "pywal")
-if not ok then
+local ok, pywal = pcall(require, "pywal")
+if ok and pywal then
+    hl.config({
+        group = {
+            col = {
+                border_active   = pywal.groupBorderActive,
+                border_inactive = pywal.groupBorderInactive,
+            },
+            groupbar = {
+                text_color          = pywal.groupbarText,
+                text_color_inactive = pywal.groupbarTextInactive,
+                col = {
+                    active   = pywal.groupbarBgActive,
+                    inactive = pywal.groupbarBgInactive,
+                },
+            },
+        },
+    })
+else
     hl.exec_cmd("nohup wal -i /home/crop/Pictures/wallpapers/flo.png -n &>/dev/null & disown")
 end
 

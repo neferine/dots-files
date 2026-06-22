@@ -113,10 +113,6 @@ hl.config({
 -- Group / tabs
 hl.config({
     group = {
-        col = {
-            border_active   = "rgba(33ccffee)",
-            border_inactive = "rgba(595959aa)",
-        },
         groupbar = {
             height              = 22,
             font_size           = 12,
@@ -128,12 +124,6 @@ hl.config({
             gradients           = true,
             rounding            = 0,
             gradient_rounding   = 0,
-            text_color          = "rgb(ffffff)",
-            text_color_inactive = "rgba(ccccccaa)",
-            col                 = {
-                active   = "rgba(33ccffcc)",
-                inactive = "rgba(303030cc)",
-            },
         },
     },
 })

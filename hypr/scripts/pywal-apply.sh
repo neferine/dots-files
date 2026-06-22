@@ -92,7 +92,10 @@ hex_to_rgba() {
 }
 
 C0_RGBA=$(hex_to_rgba "$C0" "0.8")
+C0_RGBA_HIGH=$(hex_to_rgba "$C0" "0.92")
 C4_RGBA=$(hex_to_rgba "$C4" "0.9")
+C8_RGBA=$(hex_to_rgba "$C8" "0.7")
+BG_RGBA=$(hex_to_rgba "$BG" "0.8")
 FG_RGBA=$(hex_to_rgba "$FG" "1.0")
 
 PYWAL_LUA=$(cat << LUA
@@ -111,6 +114,13 @@ return {
 
     background = "$C0",
     foreground = "$FG",
+
+    groupBorderActive   = "$C4_RGBA",
+    groupBorderInactive = "$C0_RGBA",
+    groupbarText        = "$FG_RGBA",
+    groupbarTextInactive = "$C8_RGBA",
+    groupbarBgActive    = "$C0_RGBA_HIGH",
+    groupbarBgInactive  = "$BG_RGBA",
 
     color0  = "$C0",
     color1  = "$C1",
@@ -198,157 +208,56 @@ HYPRLOCK
 
 echo "$HYPRLOCK" > "$CONFIG_DIR/hypr/hyprlock.conf"
 
+
 # -------------------------------------------------------------
-# regenerate Firefox userChrome.css
+# regenerate ghostty config
 # -------------------------------------------------------------
 
-echo "[+] Generating Firefox userChrome/userContent CSS..."
+echo "[+] Generating ghostty config..."
 
-FIREFOX_CSS=$(cat << FIREFOX
-:root {
-    --bg: $C0;
-    --bg-alt: $C0;
-    --fg: $FG;
-    --fg-dim: $C8;
-    --accent: $C4;
-    --accent-dim: $C2;
-    --border: $C0;
-}
+GHOSTTY=$(cat << GHOSTTY
+background = $BG
+foreground = $FG
+cursor-color = $FG
 
-#toolbar-menubar {
-    background-color: var(--bg) !important;
-    color: var(--fg) !important;
-}
+palette = 0=$C0
+palette = 1=$C1
+palette = 2=$C2
+palette = 3=$C3
+palette = 4=$C4
+palette = 5=$C5
+palette = 6=$C6
+palette = 7=$C7
+palette = 8=$C8
+palette = 9=$C9
+palette = 10=$C10
+palette = 11=$C11
+palette = 12=$C12
+palette = 13=$C13
+palette = 14=$C14
+palette = 15=$C15
 
-#TabsToolbar {
-    background-color: var(--bg) !important;
-    color: var(--fg) !important;
-}
-
-#nav-bar {
-    background-color: var(--bg) !important;
-    color: var(--fg) !important;
-    border-bottom: 1px solid var(--border) !important;
-}
-
-#urlbar {
-    background-color: var(--bg-alt) !important;
-    color: var(--fg) !important;
-}
-
-#urlbar-input {
-    color: var(--fg) !important;
-}
-
-#urlbar-background {
-    background-color: var(--bg-alt) !important;
-}
-
-#PersonalToolbar {
-    background-color: var(--bg) !important;
-    color: var(--fg) !important;
-    border-bottom: 1px solid var(--border) !important;
-}
-
-#sidebar-box {
-    background-color: var(--bg) !important;
-    color: var(--fg) !important;
-}
-
-#sidebar-header {
-    background-color: var(--bg) !important;
-    color: var(--fg) !important;
-    border-bottom: 1px solid var(--border) !important;
-}
-
-#statuspanel-label {
-    background-color: var(--bg) !important;
-    color: var(--fg) !important;
-}
-
-/* tab bar */
-#tabbrowser-tabs {
-    background-color: var(--bg) !important;
-}
-
-#titlebar {
-    background-color: var(--bg) !important;
-}
-
-.tab-background {
-    background-color: var(--bg-alt) !important;
-}
-
-.tab-background[selected="true"] {
-    background-color: var(--bg) !important;
-    border-bottom: 2px solid var(--accent) !important;
-}
-
-.tabbrowser-tab {
-    color: var(--fg) !important;
-}
-
-.tab-stack {
-    background-color: transparent !important;
-}
-
-.tab-content {
-    color: var(--fg) !important;
-}
-
-tab {
-    background-color: var(--bg) !important;
-    color: var(--fg) !important;
-}
-FIREFOX
+window-decoration = none
+font-family = Iosevka Nerd Font
+font-size = 12
+keybind = ctrl+n=new_tab
+keybind = ctrl+w=close_tab
+GHOSTTY
 )
 
-for profile_dir in "$FIREFOX_PROFILES_DIR"/*.default* "$FIREFOX_PROFILES_DIR"/*.default-esr*; do
-    if [[ -d "$profile_dir" ]]; then
-        mkdir -p "$profile_dir/chrome"
-        echo "$FIREFOX_CSS" > "$profile_dir/chrome/userChrome.css"
-        echo "    wrote userChrome.css to $(basename "$profile_dir")"
-    fi
+echo "$GHOSTTY" > "$CONFIG_DIR/ghostty/config"
+
+# Reload Ghostty config live via D-Bus (no restart needed)
+gdbus call --session --dest com.mitchellh.ghostty \
+    --object-path /com/mitchellh/ghostty \
+    --method org.freedesktop.Application.ActivateAction \
+    "reload-config" "[]" "{}" 2>/dev/null || true
+
+# Apply colors to running terminals via escape sequences
+WAL_SEQUENCES="$CACHE_DIR/sequences"
+for pts in /dev/pts/[0-9]*; do
+    [ -w "$pts" ] && cat "$WAL_SEQUENCES" > "$pts" 2>/dev/null || true
 done
-
-# -------------------------------------------------------------
-# regenerate Firefox userContent.css
-# -------------------------------------------------------------
-
-FIREFOX_CONTENT_CSS=$(cat << FIREFOX_CONTENT
-:root {
-    --bg: $C0;
-    --fg: $FG;
-    --accent: $C4;
-}
-
-@-moz-document url-prefix("about:"), url-prefix("chrome://") {
-    html, body {
-        background-color: var(--bg) !important;
-        color: var(--fg) !important;
-    }
-
-    /* new tab page */
-    .search-wrapper input,
-    .search-handoff-button,
-    .search-inner-wrapper input {
-        background-color: var(--bg) !important;
-        color: var(--fg) !important;
-        border-color: var(--accent) !important;
-    }
-}
-FIREFOX_CONTENT
-)
-
-for profile_dir in "$FIREFOX_PROFILES_DIR"/*.default* "$FIREFOX_PROFILES_DIR"/*.default-esr*; do
-    if [[ -d "$profile_dir" ]]; then
-        mkdir -p "$profile_dir/chrome"
-        echo "$FIREFOX_CONTENT_CSS" > "$profile_dir/chrome/userContent.css"
-        echo "    wrote userContent.css to $(basename "$profile_dir")"
-    fi
-done
-
-# -------------------------------------------------------------
 
 # reload configs
 pkill -SIGUSR2 waybar 2>/dev/null || true
