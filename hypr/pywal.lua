@@ -1,0 +1,1 @@
+/home/crop/.cache/wal/pywal.lua

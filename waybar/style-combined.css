@@ -1,0 +1,50 @@
+@define-color foreground #e2dcce;
+@define-color background #15110f;
+@define-color cursor #e2dcce;
+
+@define-color color0 #15110f;
+@define-color color1 #8D7A47;
+@define-color color2 #788166;
+@define-color color3 #B6974E;
+@define-color color4 #A08C54;
+@define-color color5 #B2AD9D;
+@define-color color6 #C6B8A1;
+@define-color color7 #e2dcce;
+@define-color color8 #9e9a90;
+@define-color color9 #8D7A47;
+@define-color color10 #788166;
+@define-color color11 #B6974E;
+@define-color color12 #A08C54;
+@define-color color13 #B2AD9D;
+@define-color color14 #C6B8A1;
+@define-color color15 #e2dcce;
+* {
+    font-size: 12px;
+    font-family: sans-serif;
+    min-height: 0;
+}
+
+window#waybar {
+    background: @color0;
+    color: @foreground;
+}
+
+#clock {
+    padding: 0 10px;
+}
+
+#custom-network {
+    padding: 0 10px;
+}
+
+#battery {
+    padding: 0 10px;
+}
+
+#battery.charging {
+    color: @color2;
+}
+
+#battery.plugged {
+    color: @color4;
+}

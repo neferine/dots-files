@@ -1,0 +1,69 @@
+{
+  "layer": "bottom",
+  "position": "bottom",
+  "height": 22,
+  "modules-left": ["clock", "custom/ip"],
+  "modules-center": [],
+  "modules-right": [
+    "custom/audio",
+    "custom/brightness",
+    "custom/network",
+    "battery",
+    "tray",
+  ],
+  "custom/ip": {
+    "format": "{}",
+    "exec": "~/.config/waybar/scripts/ip.sh",
+    "interval": 60,
+  },
+  "clock": {
+    "format": "{:%a %b %d  %H:%M}",
+    "interval": 60,
+    "tooltip-format": "{calendar}",
+    "calendar": {
+      "mode": "month",
+      "format": {
+        "months": "<span size='xx-large' color='#ffead3'><b>{}</b></span>",
+        "days": "<span size='large' color='#ecc6d9'><b>{}</b></span>",
+        "weeks": "<span size='large' color='#99c1f1'><b>W{}</b></span>",
+        "weekdays": "<span size='large' color='#ffb3b3'><b>{}</b></span>",
+        "today": "<span size='large' color='#ff6699'><b><u>{}</u></b></span>",
+      },
+    },
+  },
+  "custom/audio": {
+    "format": "{}",
+    "exec": "~/.config/waybar/scripts/audio.sh",
+    "interval": 1,
+    "on-click": "pavucontrol",
+    "on-scroll-up": "~/.config/waybar/scripts/volume-up.sh",
+    "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%",
+  },
+  "custom/brightness": {
+    "format": "{}",
+    "exec": "~/.config/waybar/scripts/brightness.sh",
+    "interval": 1,
+    "on-scroll-up": "~/.config/waybar/scripts/brightnessctl-wrapper.sh up",
+    "on-scroll-down": "~/.config/waybar/scripts/brightnessctl-wrapper.sh down",
+  },
+    "custom/network": {
+      "format": "{}",
+      "exec": "~/.config/waybar/scripts/network-name.sh",
+      "interval": 30,
+      "on-click": "nm-connection-editor",
+    },
+  "battery": {
+    "states": {
+      "warning": 20,
+      "critical": 10,
+    },
+    "format": "{icon}  {capacity}",
+    "format-icons": ["\uf244", "\uf243", "\uf242", "\uf241", "\uf240"],
+    "format-charging": "\uf0e7  {capacity}",
+    "format-plugged": "\uf0e7  FULL",
+    "interval": 30,
+  },
+  "tray": {
+    "spacing": 8,
+  },
+}

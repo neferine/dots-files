@@ -1,28 +1,41 @@
+@import url("file:///home/crop/.cache/wal/colors-waybar.css");
+
 * {
-  font-family: "JetBrainsMono Nerd Font", monospace;
-  font-size: 14px;
-  border: none;
-  box-shadow: none;
+    font-size: 12px;
+    font-family: "Iosevka Nerd Font";
+    min-height: 0;
+    padding: 0;
 }
 
 window#waybar {
-  background-color: rgba(145,128,161,0.85);
-  color:#ECE8EF;
-  border-bottom: 1px solid #585865;
-  transition: background-color 0.3s ease; 
+    background: @color0;
+    color: @foreground;
 }
 
 #clock {
-  font-weight: bold;
-  margin: 0 20px;
+    padding: 0 10px;
 }
 
-#custom-bluetooth,
-#network,
-#pulseaudio,
-#cpu,
-#custom-cputemp,
+#custom-audio,
+#custom-brightness,
+#custom-ip,
+#custom-network,
 #battery {
-  margin: 0 10px;
+    padding: 0 10px;
+    border-left: 1px solid @color8;
 }
 
+#pulseaudio.muted,
+#custom-network.disconnected,
+#battery.warning,
+#battery.critical {
+    color: @color1;
+}
+
+#battery.charging {
+    color: @color2;
+}
+
+#tray {
+    padding: 0 8px;
+}
