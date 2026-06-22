@@ -1,12 +1,32 @@
 #!/bin/bash
 
 CACHE_DIR="$HOME/.cache/wal"
-
-FIREFOX_PROFILES=(
-    "/home/crop/Old Firefox Data/njdm1t0u.default-release"
-    "/home/crop/Old Firefox Data/15uhmmpw.default-release-1781960340068"
-)
 CONFIG_DIR="$HOME/.config"
+
+detect_firefox_profiles() {
+    local profiles_ini="$HOME/.mozilla/firefox/profiles.ini"
+    local mozilla_dir="$HOME/.mozilla/firefox"
+    [[ -f "$profiles_ini" ]] || return 1
+
+    while IFS='=' read -r key value; do
+        if [[ $key == Path ]]; then
+            local path="$value"
+            local dir
+            # IsRelative is the last relevant flag before Path; default 1
+            local rel="${is_rel:-1}"
+            if [[ $rel == 1 ]]; then
+                dir="$mozilla_dir/$path"
+            else
+                dir="$path"
+            fi
+            if [[ -d "$dir" ]]; then
+                echo "$dir"
+            fi
+        elif [[ $key == IsRelative ]]; then
+            is_rel="$value"
+        fi
+    done < "$profiles_ini"
+}
 
 # -------------------------------------------------------------
 
@@ -457,11 +477,11 @@ USERCONTENT=$(cat << CSS
 CSS
 )
 
-for profile in "${FIREFOX_PROFILES[@]}"; do
-    [ -d "$profile/chrome" ] || mkdir -p "$profile/chrome"
+while IFS= read -r profile; do
+    mkdir -p "$profile/chrome"
     echo "$USERCHROME" > "$profile/chrome/userChrome.css"
     echo "$USERCONTENT" > "$profile/chrome/userContent.css"
-done
+done < <(detect_firefox_profiles)
 
 # Reload Ghostty config live via D-Bus (no restart needed)
 gdbus call --session --dest com.mitchellh.ghostty \
