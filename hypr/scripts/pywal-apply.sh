@@ -197,25 +197,13 @@ HYPRLOCK=$(cat << HYPRLOCK
 background {
     monitor = ""
     path = screenshot
-    blur_passes = 4
-    blur_size = 6
-    noise = 0.2
-    contrast = 0.85
+    blur_passes = 1
+    blur_size = 3
+    noise = 0.15
+    contrast = 0.9
     brightness = 1.0
-    vibrancy = 0.15
+    vibrancy = 0.2
     vibrancy_darkness = 0.0
-}
-
-shape {
-    monitor =
-    size = 100%, 100%
-    color = rgba(40, 60, 140, 0.25)
-}
-
-shape {
-    monitor =
-    size = 100%, 100%
-    color = rgba(0, 0, 0, 0.12)
 }
 
 input-field {
@@ -225,8 +213,8 @@ input-field {
     dots_size = 0.2
     dots_spacing = 0.2
     dots_center = true
-    outer_color = rgba(70, 120, 200, 0.5)
-    inner_color = rgba(10, 15, 35, 0.6)
+    outer_color = rgba(60, 120, 200, 0.4)
+    inner_color = rgba(10, 15, 35, 0.4)
     font_color = rgba(210, 225, 250, 1.0)
     fade_on_empty = true
     fade_timeout = 1000
@@ -239,7 +227,7 @@ input-field {
 
 label {
     text = cmd[update:1000] echo "\$(date +'%A, %B %d')"
-    color = rgba(130, 180, 240, 0.9)
+    color = rgba(100, 160, 230, 1.0)
     font_size = 20
     font_family = Inter Bold
     position = 0, -35
