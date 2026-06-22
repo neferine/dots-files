@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WALLPAPER_DIR="$HOME/Pictures/wallpapers"
+WALLPAPER_DIR="$HOME/Pictures/wallpapers/"
 STATE_FILE="$HOME/.cache/wallpaper_index"
 CACHE_WAL="$HOME/.cache/wal/wal"
 
