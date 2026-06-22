@@ -286,11 +286,12 @@ echo "[+] Generating firefox userChrome/userContent css..."
 USERCHROME=$(cat << CSS
 :root {
     --bg: $C0;
-    --bg-alt: $BG_ALT;
+    --surface: $BG_ALT;
     --fg: $FG;
     --fg-dim: $C8;
     --accent: $C4;
-    --accent-dim: $C2;
+    --accent-soft: $C6;
+    --accent-warm: $C5;
     --border: $BORDER;
 }
 
@@ -310,11 +311,12 @@ USERCHROME=$(cat << CSS
 }
 
 .tabbrowser-tab:hover {
-    background-color: var(--bg-alt) !important;
+    background-color: var(--surface) !important;
 }
 
 .tabbrowser-tab[selected] {
-    background-color: var(--bg-alt) !important;
+    background-color: var(--surface) !important;
+    border-bottom: 1px solid var(--accent) !important;
 }
 
 .tabbrowser-tab .tab-content {
@@ -326,11 +328,15 @@ USERCHROME=$(cat << CSS
 }
 
 .tab-close-button {
-    fill: var(--fg-dim) !important;
+    fill: var(--accent-warm) !important;
+}
+
+.tab-close-button:hover {
+    fill: var(--fg) !important;
 }
 
 #nav-bar {
-    background-color: var(--bg-alt) !important;
+    background-color: var(--surface) !important;
     border: none !important;
     box-shadow: none !important;
 }
@@ -370,7 +376,7 @@ USERCHROME=$(cat << CSS
 }
 
 .urlbarView-row:hover {
-    background-color: var(--bg-alt) !important;
+    background-color: var(--surface) !important;
 }
 
 .urlbarView-title {
@@ -400,7 +406,7 @@ USERCHROME=$(cat << CSS
 }
 
 #sidebar-splitter {
-    background-color: var(--border) !important;
+    background-color: var(--accent-soft) !important;
 }
 
 #statuspanel-label {
@@ -422,7 +428,7 @@ panel menuitem {
 }
 
 panel menuitem:hover {
-    background-color: var(--bg-alt) !important;
+    background-color: var(--surface) !important;
 }
 
 #context-navigation {
@@ -438,7 +444,7 @@ panel menuitem:hover {
 }
 
 #main-window .titlebar-buttonbox {
-    fill: var(--fg-dim) !important;
+    fill: var(--accent-warm) !important;
 }
 
 #main-window .titlebar-buttonbox:hover {
@@ -451,8 +457,11 @@ USERCONTENT=$(cat << CSS
 @-moz-document url(about:newtab), url(about:home), url(about:blank) {
     :root {
         --bg: $C0;
+        --surface: $BG_ALT;
         --fg: $FG;
+        --fg-dim: $C8;
         --accent: $C4;
+        --border: $BORDER;
     }
 
     body {
@@ -465,7 +474,7 @@ USERCONTENT=$(cat << CSS
     }
 
     .search-handoff-button {
-        background-color: var(--bg-alt) !important;
+        background-color: var(--surface) !important;
         border-color: var(--border) !important;
         color: var(--fg-dim) !important;
     }
