@@ -1,25 +1,54 @@
-<center> 
-  <h2 align='center'>Dot-Files for Hyprland & Waybar</h2>
-</center>
+# dotfiles
 
+Hyprland dotfiles using Lua config, Waybar, and more.
 
-### Use JettBrains Mono Nerd Font
-**Install Font**
+## Structure
+
+Each directory maps directly to `~/.config/<dir>` via symlink.
+
 ```
-sudo pacman -S ttf-jetbrains-mono-nerd
+dots-files/
+├── hypr/          # Hyprland (Lua config)
+├── waybar/        # Waybar status bar
+├── fastfetch/     # System info
+├── fuzzel/        # App launcher
+├── ghostty/       # Terminal emulator
+├── Thunar/        # File manager
+├── xfce4/         # Thunar config
+├── zed/           # Editor
+├── wofi/          # App launcher (alternative)
+├── wallpapers/    # Wallpaper collection
+├── .zshrc         # Zsh config (oh-my-zsh + p10k)
+├── .dmrc          # Desktop session
+└── PREREQUISITES.md
 ```
 
-### Bluetooth
+## Font
+
+**Iosevka Nerd Font** is required for p10k icons.
+
 ```
-sudo pacman -S bluez bluez-utils blueman 
+sudo pacman -S ttf-iosevka-nerd
 ```
-### Start & Enable Bluetooth
+
+## Bluetooth
+
 ```
-sudo systemctl start bluetooth.service 
-sudo systemctl enable bluetooth.service
+sudo pacman -S bluez bluez-utils blueman
+sudo systemctl enable --now bluetooth.service
 ```
-# Utils
+
+## Dependencies
+
+See [PREREQUISITES.md](PREREQUISITES.md) for full list.
+
+## Setup
+
+```bash
+git clone git@github.com:neferine/dots-files.git ~/.dots
+for dir in ~/.dots/*/; do
+  ln -sf "$dir" "${dir/#$HOME\/.dots/$HOME\/.config}"
+done
+ln -sf ~/.dots/.zshrc ~/.zshrc
+ln -sf ~/.dots/.dmrc ~/.dmrc
 ```
-sudo pacman -S zip unzip waybar hyprlock hyprpaper brightnessctl pavucontrol pamixer 
-```
-###### will add bash file soon...

@@ -213,12 +213,12 @@ background {
     monitor =
     path = screenshot           # live desktop capture
     color = $LOCK_BG            # fallback tint if capture fails
-    blur_passes = 2             # may not work (driver issue)
-    blur_size = 8
-    noise = 0.025               # grain texture
+    blur_passes = 1            # may not work (driver issue)
+    blur_size = 3
+    noise = 0.015               # grain texture
     contrast = 0.8
     brightness = 0.7
-    vibrancy = 0.3
+    vibrancy = 0.4
 }
 
 shape {
@@ -229,18 +229,18 @@ shape {
 
 input-field {
     monitor =
-    size = 300, 50
-    outline_thickness = 2
-    dots_size = 0.2
-    dots_spacing = 0.2
+    size = 230, 35
+    outline_thickness = 0
+    dots_size = 0.-2
+    dots_spacing = 0.02
     dots_center = true
     outer_color = $LOCK_OUTER
     inner_color = $LOCK_INNER
     font_color = $LOCK_FONT
     fade_on_empty = true
     fade_timeout = 1000
-    placeholder_text = <i>Password...</i>
-    hide_input = false
+    placeholder_text = <i>Freeze</i>
+    hide_input = true
     position = 0, -120
     halign = center
     valign = center

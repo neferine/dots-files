@@ -1,9 +1,26 @@
+background = #282c1f
+foreground = #e0dfcf
+cursor-color = #e0dfcf
+
+palette = 0=#282c1f
+palette = 1=#637B8D
+palette = 2=#6E8A93
+palette = 3=#6B8D9D
+palette = 4=#9EACA1
+palette = 5=#92ABB0
+palette = 6=#B6C3B8
+palette = 7=#e0dfcf
+palette = 8=#9c9c90
+palette = 9=#637B8D
+palette = 10=#6E8A93
+palette = 11=#6B8D9D
+palette = 12=#9EACA1
+palette = 13=#92ABB0
+palette = 14=#B6C3B8
+palette = 15=#e0dfcf
+
 window-decoration = none
-
-theme = "Adwaita Dark"
-
 font-family = Iosevka Nerd Font
 font-size = 12
-
 keybind = ctrl+n=new_tab
 keybind = ctrl+w=close_tab

@@ -78,4 +78,4 @@ hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/scree
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
 
 -- Cycle wallpaper and apply colors
-hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/pywal-apply.sh"))
+hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/set-wallpaper.sh"))
