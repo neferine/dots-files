@@ -213,8 +213,8 @@ background {
     monitor =
     path = screenshot           # live desktop capture
     color = $LOCK_BG            # fallback tint if capture fails
-    blur_passes = 1            # may not work (driver issue)
-    blur_size = 3
+    blur_passes = 2            # may not work (driver issue)
+    blur_size = 4
     noise = 0.015               # grain texture
     contrast = 0.8
     brightness = 0.7

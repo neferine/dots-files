@@ -18,4 +18,4 @@ case "$1" in
     fi
     ;;
 esac
-brightnessctl g
+pkill -SIGRTMIN+1 waybar 2>/dev/null || true

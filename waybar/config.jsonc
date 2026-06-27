@@ -5,7 +5,7 @@
   "modules-left": ["clock", "custom/ip"],
   "modules-center": [],
   "modules-right": [
-    "custom/audio",
+    "pulseaudio",
     "custom/brightness",
     "custom/network",
     "battery",
@@ -31,27 +31,29 @@
       },
     },
   },
-  "custom/audio": {
-    "format": "{}",
-    "exec": "~/.config/waybar/scripts/audio.sh",
-    "interval": 1,
+  "pulseaudio": {
+    "format": " {icon}  {volume}% ",
+    "format-muted": "  MUTED",
+    "format-icons": {
+      "default": ["", "", ""],
+    },
     "on-click": "pavucontrol",
-    "on-scroll-up": "~/.config/waybar/scripts/volume-up.sh",
-    "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%",
+    "scroll-step": 5,
   },
   "custom/brightness": {
     "format": "{}",
     "exec": "~/.config/waybar/scripts/brightness.sh",
-    "interval": 1,
+    "interval": 5,
+    "signal": 1,
     "on-scroll-up": "~/.config/waybar/scripts/brightnessctl-wrapper.sh up",
     "on-scroll-down": "~/.config/waybar/scripts/brightnessctl-wrapper.sh down",
   },
-    "custom/network": {
-      "format": "{}",
-      "exec": "~/.config/waybar/scripts/network-name.sh",
-      "interval": 30,
-      "on-click": "nm-connection-editor",
-    },
+  "custom/network": {
+    "format": "{}",
+    "exec": "~/.config/waybar/scripts/network-name.sh",
+    "interval": 30,
+    "on-click": "nm-connection-editor",
+  },
   "battery": {
     "states": {
       "warning": 20,
