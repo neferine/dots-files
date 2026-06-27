@@ -55,7 +55,7 @@ hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tru
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
 -- Group / tabbed binds
--- hl.bind(mainMod .. " + W",             hl.dsp.group.toggle())
+hl.bind(mainMod .. " + W", hl.dsp.group.toggle())
 hl.bind("ALT + Tab", hl.dsp.group.next())
 hl.bind("ALT + SHIFT + Tab", hl.dsp.group.prev())
 hl.bind(mainMod .. " + G", hl.dsp.window.move({ into_group = "l" }))
@@ -78,4 +78,4 @@ hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/scree
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
 
 -- Cycle wallpaper and apply colors
-hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/set-wallpaper.sh"))
+hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/set-wallpaper.sh next"))

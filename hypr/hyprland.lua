@@ -22,7 +22,7 @@ if ok and pywal then
         },
     })
 else
-    hl.exec_cmd("nohup wal -i /home/crop/Pictures/wallpapers/flo.png -n &>/dev/null & disown")
+    hl.exec_cmd("nohup wal -i /home/crop/Pictures/wallpapers/nefwal.png -n &>/dev/null & disown")
 end
 
 hl.on("hyprland.start", function()

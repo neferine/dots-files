@@ -1,23 +1,23 @@
-background = #1b0d04
-foreground = #cac8c5
-cursor-color = #cac8c5
+background = #181818
+foreground = #ebe6d7
+cursor-color = #ebe6d7
 
-palette = 0=#1b0d04
-palette = 1=#7E807D
-palette = 2=#9B8873
-palette = 3=#C29671
-palette = 4=#6F7B84
-palette = 5=#79868F
-palette = 6=#8E9293
-palette = 7=#cac8c5
-palette = 8=#8d8c89
-palette = 9=#7E807D
-palette = 10=#9B8873
-palette = 11=#C29671
-palette = 12=#6F7B84
-palette = 13=#79868F
-palette = 14=#8E9293
-palette = 15=#cac8c5
+palette = 0=#181818
+palette = 1=#898575
+palette = 2=#458588
+palette = 3=#ACA590
+palette = 4=#C4BCA3
+palette = 5=#D6CDB2
+palette = 6=#E5DCBE
+palette = 7=#ebe6d7
+palette = 8=#a4a196
+palette = 9=#898575
+palette = 10=#458588
+palette = 11=#ACA590
+palette = 12=#C4BCA3
+palette = 13=#D6CDB2
+palette = 14=#E5DCBE
+palette = 15=#ebe6d7
 
 window-decoration = none
 font-family = Iosevka Nerd Font

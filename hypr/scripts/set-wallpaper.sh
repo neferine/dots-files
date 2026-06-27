@@ -9,9 +9,23 @@ mapfile -t WALLPAPERS < <(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -in
 if [ ${#WALLPAPERS[@]} -eq 0 ]; then exit 1; fi
 
 IDX=0
-[ -f "$STATE_FILE" ] && IDX=$(cat "$STATE_FILE")
+if [ -f "$STATE_FILE" ]; then
+    IDX=$(cat "$STATE_FILE")
+else
+    # First run: default to nefwal.png
+    for i in "${!WALLPAPERS[@]}"; do
+        if [[ "${WALLPAPERS[$i]}" == *"nefwal.png" ]]; then
+            IDX=$i
+            break
+        fi
+    done
+fi
 
-NEXT=$(( (IDX + 1) % ${#WALLPAPERS[@]} ))
+if [ "${1:-}" = "next" ]; then
+    NEXT=$(( (IDX + 1) % ${#WALLPAPERS[@]} ))
+else
+    NEXT=$IDX
+fi
 echo "$NEXT" > "$STATE_FILE"
 
 WALLPAPER="${WALLPAPERS[$NEXT]}"
